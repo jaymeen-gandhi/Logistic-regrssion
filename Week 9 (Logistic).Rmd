@@ -1,0 +1,99 @@
+---
+title: "Week 9"
+author: "Jaymeen Gandhi"
+date: "November 18, 2019"
+output: html_document
+---
+```{r}
+require(tidyverse)
+```
+
+
+```{r}
+books=read_csv('D:/Into data mining, visulization(Prof.yegin)/allbacks_dummies(1).csv')
+books
+```
+
+```{r}
+ggplot(books)+geom_point(aes(x=volume, y=weight, color=cover))+geom_smooth(method='lm', aes(x=volume, y=weight , color=cover), fill=NA)
+```
+
+```{r}
+summary(lm(weight~volume,data = books))
+##weight=a*volume+b
+##weight=a*volume+b*cover+c(better model)
+```
+
+```{r}
+books2=books%>%mutate(cover_dummy=ifelse(cover=='hb',1,0))
+summary(lm(weight~volume +cover_dummy,  books2))
+
+```
+
+```{r}
+summary(lm(weight~volume+cover, data = books))
+```
+
+
+```{r}
+summary(lm(weight~volume, data = books))
+```
+
+
+```{r}
+summary(lm(weight~volume, data = books))
+```
+
+```{r}
+dummy=read_csv('D:/Into data mining, visulization(Prof.yegin)/allbacks_dummies(1).csv')
+```
+
+```{r}
+summary(lm(weight~volume,coverisll,coverispb, data = dummy))
+```
+
+
+$$
+weight=0.71832*volume-23.9530*coverll -184.05537coverpb + 197.65506
+$$
+
+```{r}
+books
+```
+
+```{r}
+books3=books%>%mutate(cover_d=ifelse(cover=='hb',0,1))
+books3
+```
+```{r}
+books4=books3%>%mutate(density = weight/volume)
+books4
+```
+
+$ y={1}/{1+e^{-ax-b}}$
+```{r}
+ggplot(books)+geom_point(aes(x=density, y=cover_d, color=cover))+geom_smooth(method='glm', method.args=list(family='binomial'),  aes(x=density, y=cover_d), fill=NA )
+
+
+```
+
+```{r}
+summary(glm(as.factor(cover)~density, data= books4,family='binomial'))
+##This type will have an output of 2 types and will have value only 0 and 1.
+```
+
+```{r}
+summary(glm(as.factor(cover)~volume+weight, data= books4,family='binomial'))
+##Changes in the log ratio
+```
+$$
+
+
+p_(hc)=0.8
+p_(pb)=0.2
+OR_(hc,pb)=0.8/0.2
+OR_(hc,pb=4)
+log_(OR)=1.386
+$$
+
+
